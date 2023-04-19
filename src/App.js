@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Input, Button, Spin } from 'antd';
 import axios from 'axios';
-// import UnityWebGLComponent from './components/UnityGame';
+// import WebGLComponent from './components/UnityGame';
 import PopUpWindow from "./components/PopUp";
 import './App.css';
 
@@ -78,6 +78,15 @@ function App() {
             {/*<div*/}
             {/*<UnityGame />*/}
             {/*</div>*/}
+            {/*<WebGLComponent />*/}
+            <iframe
+                src="/WebGL/index.html"
+                width="800"
+                height="600"
+                frameBorder="0"
+                title="Unity WebGL Build"
+            ></iframe>
+
 
             <PopUpWindow
                 visible={isModalVisible}
