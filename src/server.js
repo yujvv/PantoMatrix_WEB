@@ -36,6 +36,16 @@ app.post("/chat", async (req, res) => {
         res.status(500).send("Internal Server Error"); // Send an appropriate error response
     }
 });
+
+
+// Start the server
+const port = 5555;
+app.listen(port, () => {
+    console.log(`Server listening on port ${port}`);
+});
+
+
+
 //
 // // Define the endpoint to handle the download request
 // app.get("/download", (req, res) => {
@@ -89,9 +99,3 @@ app.post("/chat", async (req, res) => {
 //     });
 // });
 //
-
-// Start the server
-const port = 5555;
-app.listen(port, () => {
-    console.log(`Server listening on port ${port}`);
-});

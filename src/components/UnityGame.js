@@ -1,42 +1,77 @@
-import React from "react";
-import { Canvas } from "react-three-fiber";
+import React, { useState } from "react";
+import "./components.css";
+import { Button } from "antd";
 
-function WebGLComponent() {
+function WebGLPage() {
+    const [isLoading, setIsLoading] = useState(false);
+    const [progress, setProgress] = useState(0);
+    const [isPlaying, setIsPlaying] = useState(false);
+
+    function handleLoadProgress(event) {
+        if (event.lengthComputable) {
+            const loaded = event.loaded / event.total;
+            setProgress(loaded * 100);
+        }
+    }
+
+    function handleLoadComplete() {
+        setIsLoading(false);
+    }
+
+    function handleTogglePlay() {
+        setIsPlaying(!isPlaying);
+        if (!isPlaying) {
+            setIsLoading(true);
+        }
+    }
+
+    const unityGameUrl = isPlaying ? "/WebGL/index.html" : "";
+
     return (
-        <div style={{ width: "800px", height: "600px" }}>
-            <Canvas>
-                <ambientLight />
-                <pointLight position={[10, 10, 10]} />
-                <mesh>
-                    <planeBufferGeometry attach="geometry" args={[16, 16]} />
-                    <meshStandardMaterial attach="material" color="white" />
-                </mesh>
-                <mesh>
-                    <planeBufferGeometry attach="geometry" args={[10, 10]} />
-                    <meshStandardMaterial attach="material" transparent>
-                        <texture attach="map" url="/webgl/build/Build/UnityLoader.js" />
-                        <texture attach="alphaMap" url="/webgl/build/Build/UnityLoader.js.mem" />
-                    </meshStandardMaterial>
-                </mesh>
-            </Canvas>
+        <div className="webgl-page">
+            {isLoading && (
+                <div className="progress-bar" style={{ width: `${progress}%` }} />
+            )}
+            <div className="webgl-window" style={{ display: isPlaying ? "block" : "none" }}>
+                <iframe
+                    src={unityGameUrl}
+                    width="800"
+                    height="600"
+                    frameBorder="0"
+                    title="Unity WebGL Build"
+                    onLoad={handleLoadComplete}
+                    onProgress={handleLoadProgress}
+                />
+                <Button className="close-button" type="primary" onClick={handleTogglePlay}>
+                    Close
+                </Button>
+            </div>
+            {!isPlaying && (
+                <Button
+                    className="play-button"
+                    type="primary"
+                    style={{ backgroundColor: "green", width: "200px", height: "50px", fontSize: "24px", display: "block", margin: "0 auto" }}
+                    onClick={handleTogglePlay}
+                >
+                    Play
+                </Button>
+
+                // <Button className="play-button" type="primary" onClick={handleTogglePlay}>
+                //     Play
+                // </Button>
+            )}
+            {isPlaying && (
+                <Button
+                    className="pause-button"
+                    type="primary"
+                    style={{ backgroundColor: "red", width: "200px", height: "50px", fontSize: "24px", display: "block", margin: "0 auto" }}
+                    onClick={handleTogglePlay}
+                >
+                    Pause
+                </Button>
+            )}
         </div>
     );
 }
 
-export default WebGLComponent;
-
-
-
-// import React from "react";
-// import { Unity, useUnityContext } from "react-unity-webgl";
-//
-// function App() {
-//     const { unityProvider } = useUnityContext({
-//         loaderUrl: "build/myunityapp.loader.js",
-//         dataUrl: "build/myunityapp.data",
-//         frameworkUrl: "build/myunityapp.framework.js",
-//         codeUrl: "build/myunityapp.wasm",
-//     });
-//
-//     return <Unity unityProvider={unityProvider} />;
-// }
+export default WebGLPage;
