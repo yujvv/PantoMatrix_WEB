@@ -1,4 +1,4 @@
-# Getting Started with Create React App
+# Getting Started with PantoMatrix_WEB App
 
 This project includes a flask-based back end and a react-based front end which was bootstrapped with [Create React App].
 
