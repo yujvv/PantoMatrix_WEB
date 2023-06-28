@@ -26,6 +26,9 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 ### `set FLASK_APP=app.py`
 ### `flask run`
+or
+### `flask run --host=0.0.0.0`
+
 
 This is the way to start the back end, which is responsible for requesting openai apis and model loads, including webgl model updates.
 
